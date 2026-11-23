@@ -5,7 +5,7 @@ and injects it between <!-- PATCHES_START --> / <!-- PATCHES_END --> markers.
 
 The README section is a compact one-row-per-app index table. The full
 per-patch details are written to PATCHES.md, where each app gets its own
-heading and package name is listed separately.
+`## App (package)` heading so anchors are unique and deep links work.
 
 python3 generate_patches_readme.py <owner/repo> <branch> [patches-list.json] [README.md] [PATCHES.md]
 """
@@ -199,9 +199,9 @@ def resolve_icons(package_names, existing):
         return dict(zip(package_names, resolved))
 
 
-def app_anchor(app_name):
-    """Unique anchor for an app section heading: `## Name`."""
-    return anchor(app_name)
+def app_anchor(app_name, package_name):
+    """Unique anchor for an app section heading: `## Name (package)`."""
+    return anchor(f"{app_name} ({package_name})")
 
 
 def version_labels(targets):
@@ -262,21 +262,22 @@ def versions_line(targets):
     labels = version_labels(targets)
     if not labels:
         return ""
-    return "**Supported versions:** " + ", ".join(f"`{escape(label)}`" for label in labels)
+    return "**Supported versions:** " + " ".join(f"`{escape(label)}`" for label in labels)
 
 
-def index_row(app_name, package_name, count, labels):
+def index_row(index, app_name, package_name, count, labels):
     """One row of the compact README index table."""
-    app_cell = f"[**{escape(app_name, quote=False)}**](PATCHES.md#{app_anchor(app_name)})"
+    app_cell = f"[**{escape(app_name, quote=False)}**](PATCHES.md#{app_anchor(app_name, package_name)})"
     icon = app_icon(package_name, 24)
     if icon:
         app_cell = f"{icon} {app_cell}"
-    version_cell = ", ".join(f"`{escape(label)}`" for label in labels) if labels else "`Any`"
+    version_cell = ", ".join(f"`{escape(label)}`" for label in labels) if labels else "—"
     package_cell = (
         f"[`{escape(package_name, quote=False)}`]({play_store_link(package_name)})"
-        if package_name else "-"
+        if package_name
+        else "—"
     )
-    return f"| {app_cell} | {package_cell} | {version_cell} | {count} |"
+    return f"| {index} | {app_cell} | {count} | {version_cell} | {package_cell} |"
 
 
 def build_readme_section():
@@ -287,14 +288,15 @@ def build_readme_section():
         f"**{total} patches** across **{len(sorted_packages)} apps**"
         f"&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)",
         "",
-        "| App | Package name | Supported versions | Patches |",
-        "|---|---|---|---|",
+        "| # | App | Patches | Version | Package |",
+        "|---|---|---|---|---|",
     ]
 
-    for package_name, entry in sorted_packages:
+    for index, (package_name, entry) in enumerate(sorted_packages, start=1):
         patches = list(entry["patches"].values())
         lines.append(
             index_row(
+                index,
                 entry["name"],
                 package_name,
                 len(patches),
@@ -303,7 +305,7 @@ def build_readme_section():
         )
 
     if universal:
-        lines.append(index_row("Universal", "", len(universal), []))
+        lines.append(index_row(len(sorted_packages) + 1, "Universal", "", len(universal), []))
 
     return "\n".join(lines)
 
@@ -332,12 +334,9 @@ def build_patches_doc():
 
     for package_name, entry in sorted_packages:
         patches = list(entry["patches"].values())
-        sections.append(f"## {entry['name']}")
+        sections.append(f"## {entry['name']} ({package_name})")
         sections.append("")
         sections.extend(icon_lines(package_name))
-
-        sections.append(f"**Package name:** `{escape(package_name)}`")
-        sections.append("")
 
         versions = versions_line(entry["targets"])
         if versions:

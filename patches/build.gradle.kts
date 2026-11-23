@@ -14,13 +14,12 @@ group = "dev.jkcarino"
 
 patches {
     about {
-        name = "Adobo"
-        description = "Patches for Morphe to disable ads, trackers and analytics, " +
-            "remove Reddit ads everywhere, always open Gboard in incognito mode, and much more!"
-        source = "git@github.com:jkennethcarino/adobo.git"
-        author = "Ken"
-        contact = "6307355+jkennethcarino@users.noreply.github.com"
-        website = "https://github.com/jkennethcarino/adobo"
+        name = "Adobo Redsave"
+        description = "Morphe patches combining Adobo (adblocking, anti-tracking, privacy, UI tweaks) and Redsave (native Reddit media downloader)."
+        source = "https://github.com/beepboopmachine/adobo-redsave.git"
+        author = "beepboopmachine"
+        contact = "https://github.com/beepboopmachine/adobo-redsave/issues"
+        website = "https://github.com/beepboopmachine/adobo-redsave"
         license = "GNU General Public License v3.0"
     }
 }

@@ -1,14 +1,12 @@
 # Patches
 
-> Generated from `patches-list.json` — **v2.0.1** (`main`) · **55 patches** across **4 apps** · back to [README](README.md)
+> Generated from `patches-list.json` — **v2.0.1** (`main`) · **56 patches** across **4 apps** · back to [README](README.md)
 
 ---
 
-## 9GAG
+## 9GAG (com.ninegag.android.app)
 
-**Package name:** `com.ninegag.android.app`
-
-**Supported versions:** `8.30.04`, `8.29.08`, `8.26.1`, `8.25.1`, `8.24.8`
+**Supported versions:** `8.30.04` `8.29.08` `8.26.1` `8.25.1` `8.24.8`
 
 | Patch | Details |
 |---|---|
@@ -18,9 +16,7 @@
 
 ---
 
-## Gboard
-
-**Package name:** `com.google.android.inputmethod.latin`
+## Gboard (com.google.android.inputmethod.latin)
 
 | Patch | Details |
 |---|---|
@@ -37,9 +33,7 @@
 
 ---
 
-## IMDb
-
-**Package name:** `com.imdb.mobile`
+## IMDb (com.imdb.mobile)
 
 | Patch | Details |
 |---|---|
@@ -47,11 +41,9 @@
 
 ---
 
-## Reddit
+## Reddit (com.reddit.frontpage)
 
-**Package name:** `com.reddit.frontpage`
-
-**Supported versions:** `2026.47.0`, `2026.46.0`, `2026.45.0`, `2026.44.0`, `2026.24.0`
+**Supported versions:** `2026.47.0` `2026.46.0` `2026.45.0` `2026.44.0` `2026.24.0`
 
 | Patch | Details |
 |---|---|
@@ -63,6 +55,7 @@
 | **Disable home screen redirect** | Disables the automatic redirect to the home screen after being away from the app or returning from the background. |
 | **Disable post detail swipe** | Disables the horizontal swipe gesture used to navigate between posts. |
 | **Disable screenshot banner** | Disables the banner that shows up after taking a screenshot. |
+| **Download media** | Adds a native-styled download pill between Repost and Share in the feed action bar, and overrides native media download. |
 | **Enable guest mode** | Enables browsing Reddit without signing in. |
 | **Hide Ask button from search bar** | Hides the Ask button (Reddit Answers) from the search bar. |
 | **Hide awards** | Hides the awards on Reddit posts and comments. |
