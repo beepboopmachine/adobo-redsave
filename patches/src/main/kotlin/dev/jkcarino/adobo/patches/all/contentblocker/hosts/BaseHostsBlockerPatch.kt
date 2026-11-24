@@ -22,12 +22,16 @@ data class HostsBlockerConfig(
 )
 
 fun baseHostsBlockerPatch(
-    configProvider: () -> HostsBlockerConfig,
+    configProvider: () -> HostsBlockerConfig?,
 ) = patch {
     val logger = Logger.getLogger(this::class.java.name)
 
     execute {
-        val (hostsBlocker, redirectionIp, wildcard) = configProvider()
+        val config = configProvider() ?: run {
+            logger.warning("No hosts configuration provided. Skipping hosts blocker.")
+            return@execute
+        }
+        val (hostsBlocker, redirectionIp, wildcard) = config
         val blockedHosts = mutableSetOf<String>()
 
         transformationPatch(

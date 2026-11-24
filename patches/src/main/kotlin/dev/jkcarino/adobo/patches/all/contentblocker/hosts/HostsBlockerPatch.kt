@@ -19,9 +19,9 @@ val hostsBlockerPatch = patch(
         title = "Hosts file",
         description = "The hosts file containing hosts or domains you want to block. " +
             "Select a file or paste the full file path.",
-        required = true
+        required = false
     ) { filePath ->
-        !filePath.isNullOrEmpty() && File(filePath.trim()).isFile
+        filePath.isNullOrEmpty() || File(filePath.trim()).isFile
     }
 
     val redirectionIpOption by stringOption(
@@ -34,11 +34,11 @@ val hostsBlockerPatch = patch(
         title = "Redirection IP",
         description = "The IP address to redirect blocked domains to. " +
             "This will be used with your hosts list to block content.",
-        required = true
+        required = false
     ) { ipAddress ->
         // Basic validation but this doesn't validate whether the IP address is valid
         val ipAddressPattern = """^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$""".toRegex()
-        !ipAddress.isNullOrEmpty() && ipAddress.matches(ipAddressPattern)
+        ipAddress.isNullOrEmpty() || ipAddress.matches(ipAddressPattern)
     }
 
     val isWildcardOption by booleanOption(
@@ -51,14 +51,22 @@ val hostsBlockerPatch = patch(
 
     dependsOn(
         baseHostsBlockerPatch {
-            val hostsFile = File(hostsOption!!.trim())
-            val hostsBlocker = HostsBlocker.fromFile(hostsFile)
-
-            HostsBlockerConfig(
-                hostsBlocker = hostsBlocker,
-                redirectionIp = redirectionIpOption!!,
-                wildcard = isWildcardOption!!
-            )
+            val path = hostsOption?.trim()
+            if (path.isNullOrEmpty()) {
+                null
+            } else {
+                val hostsFile = File(path)
+                if (!hostsFile.isFile) {
+                    null
+                } else {
+                    val hostsBlocker = HostsBlocker.fromFile(hostsFile)
+                    HostsBlockerConfig(
+                        hostsBlocker = hostsBlocker,
+                        redirectionIp = redirectionIpOption ?: DEFAULT_REDIRECTION_IP,
+                        wildcard = isWildcardOption ?: true
+                    )
+                }
+            }
         }
     )
 }
