@@ -36,7 +36,7 @@ This repository combines patches from **Adobo** and **Redsave** for [Morphe](htt
 ## Patches
 
 <!-- PATCHES_START -->
-> **[v1.0.1](https://github.com/beepboopmachine/adobo-redsave/releases/tag/v1.0.1)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**56 patches** across **4 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.0.2](https://github.com/beepboopmachine/adobo-redsave/releases/tag/v1.0.2)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**56 patches** across **4 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|

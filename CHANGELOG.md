@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/beepboopmachine/adobo-redsave/compare/v1.0.1...v1.0.2) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **advertising:** gracefully skip spoof advertising id when client not found ([fc2bbec](https://github.com/beepboopmachine/adobo-redsave/commit/fc2bbec68e13ccb368ea336d0cb566617913ed18))
+
 ## [1.0.1](https://github.com/beepboopmachine/adobo-redsave/compare/v1.0.0...v1.0.1) (2026-11-24)
 
 ### 🐛 Bug Fixes

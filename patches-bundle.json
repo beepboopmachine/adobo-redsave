@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-24T08:40:48",
-  "description": "## [1.0.1](https://github.com/beepboopmachine/adobo-redsave/compare/v1.0.0...v1.0.1) (2026-11-24)\n\n### 🐛 Bug Fixes\n\n* **hosts:** make hosts option optional so patching does not crash when null ([a15e77b](https://github.com/beepboopmachine/adobo-redsave/commit/a15e77b3ca96e06d8e68861effa576a9fe10d536))",
-  "download_url": "https://github.com/beepboopmachine/adobo-redsave/releases/download/v1.0.1/patches-1.0.1.mpp",
+  "created_at": "2026-11-24T08:58:51",
+  "description": "## [1.0.2](https://github.com/beepboopmachine/adobo-redsave/compare/v1.0.1...v1.0.2) (2026-11-24)\n\n### 🐛 Bug Fixes\n\n* **advertising:** gracefully skip spoof advertising id when client not found ([fc2bbec](https://github.com/beepboopmachine/adobo-redsave/commit/fc2bbec68e13ccb368ea336d0cb566617913ed18))",
+  "download_url": "https://github.com/beepboopmachine/adobo-redsave/releases/download/v1.0.2/patches-1.0.2.mpp",
   "signature_download_url": "",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
