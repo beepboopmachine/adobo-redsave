@@ -8,6 +8,7 @@ import app.morphe.patcher.util.getReference
 import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
+import java.util.logging.Logger
 
 @Suppress("unused")
 val spoofAdvertisingIdPatch = patch(
@@ -15,21 +16,33 @@ val spoofAdvertisingIdPatch = patch(
     description = "Spoofs the device's advertising ID with a string of zeros.",
     default = false
 ) {
+    val logger = Logger.getLogger(this::class.java.name)
+
     execute {
-        GetInfoInternalFingerprint.method.apply {
+        val method = runCatching { GetInfoInternalFingerprint.method }.getOrNull()
+        if (method == null) {
+            logger.info("[Skipped] Google Play Services AdvertisingIdClient was not found in this app.")
+            return@execute
+        }
+
+        method.apply {
             val advertisingIdClientInfo = returnType
             val advertisingIdClientInfoIndex = instructions
-                .last { instruction ->
+                .lastOrNull { instruction ->
                     val reference = instruction
                         .getReference<MethodReference>()
-                        ?: return@last false
+                        ?: return@lastOrNull false
 
                     reference.definingClass == advertisingIdClientInfo &&
                         reference.name == "<init>" &&
                         reference.returnType == "V"
                 }
-                .location
-                .index
+                ?.location
+                ?.index
+                ?: run {
+                    logger.info("[Skipped] AdvertisingIdClient Info constructor was not found.")
+                    return@execute
+                }
 
             val targetRegister =
                 getInstruction<FiveRegisterInstruction>(advertisingIdClientInfoIndex)
@@ -37,17 +50,21 @@ val spoofAdvertisingIdPatch = patch(
 
             val advertisingIdIndex = instructions
                 .take(advertisingIdClientInfoIndex)
-                .last { instruction ->
+                .lastOrNull { instruction ->
                     val index = instruction.location.index
                     val advertisingIdRegister =
                         (getInstruction(index) as? OneRegisterInstruction)
                             ?.registerA
-                            ?: return@last false
+                            ?: return@lastOrNull false
 
                     advertisingIdRegister == targetRegister
                 }
-                .location
-                .index
+                ?.location
+                ?.index
+                ?: run {
+                    logger.info("[Skipped] AdvertisingId register was not found.")
+                    return@execute
+                }
 
             replaceInstruction(
                 index = advertisingIdIndex,
@@ -55,6 +72,7 @@ val spoofAdvertisingIdPatch = patch(
                     const-string v$targetRegister, "00000000-0000-0000-0000-000000000000"
                 """
             )
+            logger.info("[Found] Advertising ID spoofed to zeros.")
         }
     }
 }
