@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/beepboopmachine/adobo-redsave/compare/v1.0.0...v1.0.1) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **hosts:** make hosts option optional so patching does not crash when null ([a15e77b](https://github.com/beepboopmachine/adobo-redsave/commit/a15e77b3ca96e06d8e68861effa576a9fe10d536))
+
 ## 1.0.0 (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
